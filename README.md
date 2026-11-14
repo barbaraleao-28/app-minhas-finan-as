@@ -1,56 +1,49 @@
-# Welcome to your Expo app 👋
+# Minhas Finanças
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo de controle de gastos pessoais em React Native, TypeScript e Expo SDK 57. Registre quanto gastou, escolha uma categoria e acompanhe o total em reais. Os lançamentos ficam salvos no aparelho com AsyncStorage.
 
-## Get started
+## Como executar
 
-1. Install dependencies
+Você precisa de Node.js, npm, Git e uma versão do Expo Go compatível com o SDK 57. No PowerShell, execute:
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```powershell
+git clone https://github.com/barbaraleao-28/app-minhas-finan-as.git
+cd app-minhas-finan-as
+npm.cmd ci
+npx.cmd expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Conecte o celular e o computador à mesma rede Wi-Fi e escaneie o QR Code no Expo Go. Se a rede bloquear a conexão, encerre o servidor com Ctrl+C e execute `npx.cmd expo start --tunnel`. Para abrir a versão web, pressione `w` no terminal do Expo.
 
-### Other setup steps
+## Como usar
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+1. Na tela **Minhas finanças**, toque em **Adicionar gasto**.
+2. Digite a descrição, informe o valor (por exemplo, `12,50`) e selecione uma categoria. O formulário mostra um erro na tela se a descrição estiver vazia ou o valor for inválido.
+3. Toque em **Salvar gasto**. O app volta à lista e atualiza o total. Valores acima de R$ 100,00 aparecem em laranja avermelhado.
+4. Em um lançamento, toque em **Editar categoria** para reclassificá-lo ou em **Excluir** para removê-lo. As alterações continuam salvas quando você reabre o app.
 
-## Learn more
+## Interface original e redesign
 
-To learn more about developing your project with Expo, look at the following resources:
+O projeto inicia com as telas de `design/app/`. Elas usam o mesmo estado e a mesma chave de armazenamento das telas originais. Para experimentar a interface original, pare o servidor e execute no PowerShell:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```powershell
+$env:FINANCAS_ORIGINAL = '1'
+npx.cmd expo start --clear
+```
 
-## Join the community
+Para voltar ao redesign, pare o servidor, remova a variável nessa mesma janela e reinicie:
 
-Join our community of developers creating universal apps.
+```powershell
+Remove-Item Env:FINANCAS_ORIGINAL
+npx.cmd expo start --clear
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Organização do projeto
+
+| Caminho | Conteúdo |
+| --- | --- |
+| `src/app/` | Telas e navegação originais |
+| `src/gastos.tsx` | Estado compartilhado, categorias, cadastro, exclusão e persistência |
+| `design/app/` | Telas de lista e cadastro do redesign |
+| `design/interface.tsx` | Paleta, botões, seletor de categorias e formatação de valores |
+| `app.config.js` | Seleção da interface usada pelo Expo Router |
