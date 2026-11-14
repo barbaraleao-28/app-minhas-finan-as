@@ -9,6 +9,11 @@ import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 
+import {Button, FlatList} from 'react-native';
+import {router} from 'expo-router';
+import {categorias, useGastos} from '../gastos';
+import {useState} from 'react';
+
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
     return <ThemedText type="small">use browser devtools</ThemedText>;
@@ -29,31 +34,54 @@ function getDevMenuHint() {
 }
 
 export default function HomeScreen() {
+  const {gastos, excluirGasto, editarCategoria} = useGastos();
+  const [idEmEdicao, setIdEmEdicao] = useState<string|null>(null);
+  const total = gastos.reduce((soma, gasto) => soma + gasto.valor, 0);
+  
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <ThemedView style={styles.heroSection}>
           <AnimatedIcon />
           <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
+            Minhas Finanças
           </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+          <ThemedText>
+            Total Gasto= R$ {total.toFixed (2).replace('.', ',')}
+          </ThemedText>
+          <Button
+            title= "Adicionar gasto"
+            onPress={() => {
+              console.log ('Abrindo /novo-gasto');
+              router.push ('/novo-gasto');
+            }
+            }
           />
         </ThemedView>
+
+        <FlatList
+        data={gastos}
+        keyExtractor={(item) =>item.id}
+        renderItem={({item}) => (
+          <ThemedView >
+            <ThemedText style={item.valor > 100 ? { color: '#FF5733' } : undefined}>
+              {item.descricao} - R$ {item.valor.toFixed(2).replace('.', ',')}
+            </ThemedText>
+            <ThemedText> Categoria: {item.categoria ?? 'Sem Categoria'}</ThemedText>
+            <Button title = {idEmEdicao === item.id ? 'Cancelar': 'Editar categoria'} onPress = {() => setIdEmEdicao(idEmEdicao === item.id ? null: item.id)}/>
+              {idEmEdicao === item.id && categorias.map(opcao =>(
+                <Button key={opcao} title = {opcao} onPress={()=>{
+                  editarCategoria(item.id, opcao);
+                  setIdEmEdicao(null);
+                }}/>
+              ))}
+            <Button title = 'Excluir' onPress={() => excluirGasto(item.id)}/>
+          </ThemedView>
+
+        )}
+        />
+
+
 
         {Platform.OS === 'web' && <WebBadge />}
       </SafeAreaView>
@@ -78,7 +106,6 @@ const styles = StyleSheet.create({
   heroSection: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
     paddingHorizontal: Spacing.four,
     gap: Spacing.four,
   },

@@ -3,7 +3,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import {Stack} from 'expo-router';
+import {GastosProvider} from '../gastos';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -12,7 +13,13 @@ export default function TabLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AnimatedSplashOverlay />
-      <AppTabs />
+    <GastosProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="novo-gasto" options={{ title: 'Novo gasto' }} />
+        </Stack>
+    
+    </GastosProvider>
     </ThemeProvider>
   );
 }
