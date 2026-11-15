@@ -2,7 +2,7 @@
 
 Aplicativo de controle de gastos pessoais em React Native, TypeScript e Expo SDK 57. Registre quanto gastou, escolha uma categoria e acompanhe o total em reais. Os lançamentos ficam salvos no aparelho com AsyncStorage.
 
-#Aluno
+# Aluno
 Nome: Bárbara Leão
 R.A: 126776
 
