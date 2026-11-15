@@ -2,6 +2,10 @@
 
 Aplicativo de controle de gastos pessoais em React Native, TypeScript e Expo SDK 57. Registre quanto gastou, escolha uma categoria e acompanhe o total em reais. Os lançamentos ficam salvos no aparelho com AsyncStorage.
 
+#Aluno
+Nome: Bárbara Leão
+R.A: 126776
+
 ## Como executar
 
 Você precisa de Node.js, npm, Git e uma versão do Expo Go compatível com o SDK 57. No PowerShell, execute:
